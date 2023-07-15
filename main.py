@@ -1,25 +1,15 @@
-# import fastapi
-
-# app = fastapi.FastAPI()
-
-
-# @app.get("/hello/{name}")
-# async def root():
-#     return {"message": "Hello World"}
-
-
-from typing import Union
-
 from fastapi import FastAPI
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
 @app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+async def read_item(item_id: str, q: str | None = None, short: bool = False):
+    item = {"item_id": item_id}
+    if q:
+        item.update({"q": q})
+    if not short:
+        item.update(
+            {"description": "This is an amazing item that has a long description"}
+        )
+    return item
