@@ -4,25 +4,25 @@ from typing import List
 app = FastAPI()
 
 
-# @app.get("/users/{user_id}")
-# def read_user(user_id: int):
-#     return {"user_id": user_id, "name": "John"}
+@app.get("/users/{user_id}")
+def read_user(user_id: int):
+    return {"user_id": user_id, "name": "John"}
 
 
-# @app.put("/users/{user_id}")
-# def update_user(user_id: int, updated_user_data: dict):
-#     return {"message": f"User with ID {user_id} updated successfully"}
+@app.put("/users/{user_id}")
+def update_user(user_id: int, updated_user_data: dict):
+    return {"message": f"User with ID {user_id} updated successfully"}
 
 
-# @app.post("/users/")
-# def create_user(user_data: dict):
-#     return {"message": "User created successfully"}
+@app.post("/users/")
+def create_user(user_data: dict):
+    return {"message": "User created successfully"}
 
 
-# @app.delete("/users/{user_id}")
-# def delete_user(user_id: int):
-#     # Code to delete user based on user_id
-#     return {"message": f"User with ID {user_id} deleted successfully"}
+@app.delete("/users/{user_id}")
+def delete_user(user_id: int):
+    # Code to delete user based on user_id
+    return {"message": f"User with ID {user_id} deleted successfully"}
 
 
 # Sample book data for demonstration purposes
