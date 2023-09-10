@@ -30,6 +30,7 @@ import string
 from fastapi import FastAPI
 
 from pydantic import BaseModel
+from fastapi.responses import RedirectResponse
 import sqlite3
 
 app = FastAPI()
@@ -59,7 +60,7 @@ class url(BaseModel):
 
 
 def generate_random_string(length=5):
-    string = []
+    string = ""
     # characters to make random string
     # characters = string.ascii_lowercase + string.ascii_uppercase + string.digits
 
@@ -67,14 +68,18 @@ def generate_random_string(length=5):
     # use random.choice to select random characters and join them to create string
     for i in range(length):
         random_string = random.choice(characters)
-        string.append(random_string)
+        string = string + random_string
     # print(string)
     return string
+
     #  Check if it already exists in the database
-    cursor.execute("SELECT COUNT(*) FROM url_mapping WHERE short_url = ?", (string,))
-    count = cursor.fetchone()[0]
-    if count == 0:
-        return short_url
+    def check_randomID():
+        cursor.execute(
+            "SELECT COUNT(*) FROM url_mapping WHERE short_url = ?", (string,)
+        )
+        count = cursor.fetchone()[0]
+        if count == 0:
+            return short_url
 
 
 @app.post("/bit.ly")
@@ -90,13 +95,13 @@ async def get_redirect(url: url):
     return {"short_url": short_url}
 
 
-@app.get("/bit.ly/{urlID}")
+@app.get("/{urlID}")
 async def redirect_short_url(urlID: str):
     # Query database for the long URL
     cursor.execute("SELECT long_url FROM url_mapping WHERE short_url = ?", (urlID,))
     result = cursor.fetchone()
     if result:
         long_url = result[0]
-        return {"redirect_url": long_url}
+        return RedirectResponse(long_url)
     else:
         return {"error": "Short URL not found"}

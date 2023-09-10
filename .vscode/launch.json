@@ -5,18 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Bitly_clone",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": false,
+            "module": "uvicorn",
             "args": [
-                "-m",
-                "uvicorn",
-                "requestBody:app",
+                "redirectResponse:app",
                 "--reload"
-            ]
+            ],
+            "jinja": true,
+            "justMyCode": true
         }
     ]
 }
